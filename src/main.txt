@@ -1,0 +1,118 @@
+import * as PF from "pathfinding";
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const img = document.getElementById("gm");
+
+// Pengaturan Grid sesuai denahmu
+const cols = 122;
+const rows = 219;
+const cellSize = 7;
+
+canvas.width = cols * cellSize;
+canvas.height = rows * cellSize;
+
+let grid = new PF.Grid(cols, rows);
+
+// 1. FUNGSI UTAMA: Scan Gambar & Cari Jalur
+function processMap() {
+    // Buat canvas sementara untuk membaca data pixel gambar
+    const tempCanvas = document.createElement('canvas');
+    const tCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = cols;
+    tempCanvas.height = rows;
+
+    // Gambar peta ke canvas sementara
+    tCtx.drawImage(img, 0, 0, cols, rows);
+    
+    // Ambil data RGBA dari setiap pixel
+    const imageData = tCtx.getImageData(0, 0, cols, rows);
+    const pixels = imageData.data;
+
+    // Loop semua pixel untuk menentukan mana yang tembok
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+            const index = (y * cols + x) * 4;
+            const r = pixels[index];
+            const g = pixels[index + 1];
+            const b = pixels[index + 2];
+
+            // Hitung kegelapan (0 = hitam pekat, 255 = putih bersih)
+            const brightness = (r + g + b) / 3;
+
+            // Jika pixel agak gelap ( < 150), tandai sebagai TEMBOK (Unwalkable)
+            if (brightness < 150) { 
+                grid.setWalkableAt(x, y, false);
+            }
+        }
+    }
+
+    render();
+}
+
+// 2. FUNGSI RENDER (Visualisasi)
+function render() {
+    // Tentukan jalur (Contoh: dari koordinat 10,10 ke 100,200)
+    // Pastikan titik awal dan akhir tidak menabrak tembok hasil scan!
+    const finder = new PF.AStarFinder({
+        allowDiagonal: false
+    });
+    
+    // Contoh koordinat start (x,y) dan end (x,y)
+    const path = finder.findPath(10, 10, 50, 180, grid);
+
+    // Bersihkan canvas sebelum menggambar ulang
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Gambar Grid (Garis-garis kotak)
+    drawGrid();
+
+    // Gambar Tembok yang terdeteksi (Warna merah transparan)
+    drawWalls();
+
+    // Gambar Jalur yang ditemukan (Warna ungu)
+    drawPath(path);
+}
+
+function drawGrid() {
+    ctx.strokeStyle = "rgba(200, 200, 200, 0.2)";
+    ctx.beginPath();
+    for (let x = 0; x <= cols; x++) {
+        ctx.moveTo(x * cellSize, 0);
+        ctx.lineTo(x * cellSize, rows * cellSize);
+    }
+    for (let y = 0; y <= rows; y++) {
+        ctx.moveTo(0, y * cellSize);
+        ctx.lineTo(cols * cellSize, y * cellSize);
+    }
+    ctx.stroke();
+}
+
+function drawWalls() {
+    ctx.fillStyle = "rgba(255, 0, 0, 0.3)"; // Merah tipis
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+            if (!grid.nodes[y][x].walkable) {
+                ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+            }
+        }
+    }
+}
+
+function drawPath(path) {
+    if (path.length > 0) {
+        ctx.fillStyle = "purple";
+        for (let [x, y] of path) {
+            ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+        }
+    } else {
+        console.warn("Jalur tidak ditemukan! Titik start/end mungkin tertutup tembok.");
+    }
+}
+
+// Jalankan saat gambar sudah siap
+if (img.complete) {
+    processMap();
+} else {
+    img.onload = processMap;
+}
