@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 
 const cols = 122;
 const rows = 219;
-const cellSize = 7;
+const cellSize = 7  ;
 
 canvas.width = cols * cellSize;
 canvas.height = rows * cellSize;
@@ -252,24 +252,24 @@ const finder = new PF.AStarFinder({
     allowDiagonal: false
 });
 
-var path = finder.findPath(73, 190, 83, 104
+var path = finder.findPath(73, 190,  54, 34
     , grid);
 
 // gambar grid
-// function drawGrid() {
-//     for(let x=0; x<cols; x++){
-//         for(let y=0; y<rows; y++){
+function drawGrid() {
+    for(let x=0; x<cols; x++){
+        for(let y=0; y<rows; y++){
 
-//             ctx.strokeStyle = "#ccc";
-//             ctx.strokeRect(
-//                 x*cellSize,
-//                 y*cellSize,
-//                 cellSize,
-//                 cellSize
-//             );
-//         }
-//     }
-// }
+            ctx.strokeStyle = "#ccc";
+            ctx.strokeRect(
+                x*cellSize,
+                y*cellSize,
+                cellSize,
+                cellSize
+            );
+        }
+    }
+}
 
 // gambar path
 function drawPath(){
@@ -307,3 +307,4 @@ canvas.addEventListener("mousedown", function(e) {
 
 // drawGrid();
 drawPath();
+drawGrid()
