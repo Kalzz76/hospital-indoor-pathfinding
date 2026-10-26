@@ -1,246 +1,716 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "med-blue": "#5b7da1", // Professional Slate Blue
-                        "med-green": "#7ebda2", // Calming Mint Green
-                        "med-red": "#cc7a7a", // Muted Medical Red
-                        "background-light": "#f9fafb",
-                        "background-dark": "#111827",
-                    },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
-                },
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "med-blue": "#5b7da1",
+              "med-green": "#7ebda2",
+              "med-red": "#cc7a7a",
+              "background-light": "#f9fafb",
+              "background-dark": "#111827",
             },
-        }
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+          },
+        },
+      }
     </script>
-<style type="text/tailwindcss">
+    <style>
         :root {
             --med-blue: #5b7da1;
             --med-green: #7ebda2;
             --med-red: #cc7a7a;
+            --med-teal: #4db6ac;
+            --modern-red: #ef4444;
+            --modern-purple: #a855f7;
+            --modern-blue: #3b82f6;
         }
         .text-gradient-hospital {
-            background: linear-gradient(135deg, var(--med-blue), var(--med-green));
+            background: linear-gradient(135deg, var(--modern-red), var(--modern-purple), var(--modern-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .bg-gradient-medical {
+            background: linear-gradient(135deg, var(--modern-red), var(--modern-purple), var(--modern-blue));
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(126, 189, 162, 0.08), transparent), 
+                        radial-gradient(circle at bottom left, rgba(91, 125, 161, 0.08), transparent);
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
     </style>
-<title>Harmonious Multi-Color Hospital Hub</title>
-</head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 min-h-screen">
-<div class="layout-container flex h-full grow flex-col">
-<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 lg:px-10">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-3">
-<div class="size-9 flex items-center justify-center bg-med-blue rounded-lg text-white">
-<span class="material-symbols-outlined text-2xl">local_hospital</span>
-</div>
-<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Wayfinding Hub</h2>
-</div>
-<div class="hidden md:flex items-center gap-2">
-<div class="relative flex items-stretch rounded-lg h-10 w-64 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-<div class="flex items-center justify-center pl-3 text-slate-400">
-<span class="material-symbols-outlined text-xl">search</span>
-</div>
-<input class="w-full bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-400" placeholder="Search departments..." value=""/>
-</div>
-</div>
-</div>
-<div class="flex items-center gap-4 lg:gap-8">
-<nav class="hidden lg:flex items-center gap-6">
-<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-med-blue transition-colors" href="#">Directory</a>
-<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-med-red transition-colors" href="#">Emergency</a>
-<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-med-blue transition-colors" href="#">Pharmacy</a>
-</nav>
-<div class="flex gap-2">
-<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">
-<span class="material-symbols-outlined text-xl">notifications</span>
-</button>
-<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">
-<span class="material-symbols-outlined text-xl">settings</span>
-</button>
-</div>
-<div class="bg-slate-200 dark:bg-slate-700 rounded-full size-10 flex items-center justify-center overflow-hidden border-2 border-med-blue/20">
-<img alt="Doctor Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlLwESl5P6H7Eh8babGU0R3l1hRJbeO4_tcFE_45ft46uc-wf5ZXjYTFmU677wSPV7tzFXmtNLKnML3U2RqAogZu-mHSx6cygyJO1lbaG77dylYgF14hgIUnK8VulGY3Nsoy-7tRCd6XcUanb6uyYQHReBn6yn7ySJ0HBJMDP_YBwXPzcopYQXl3JhGzDqargLuzqo9AMS2sYzcu9Du_mnCcE1sG7TgIC9e9HKA61SeTBUvVO5uZQgIUGdHTZNJJbYe9RzlPaFrR0"/>
-</div>
-</div>
-</header>
-<main class="flex-1">
-<div class="relative overflow-hidden bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800">
-<div class="max-w-7xl mx-auto px-6 py-12 lg:py-16 flex flex-col lg:flex-row items-center gap-12">
-<div class="flex-1 space-y-6">
-<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-med-green/15 text-med-green text-xs font-bold uppercase tracking-wider">
-<span class="material-symbols-outlined text-sm font-bold">near_me</span> Live Navigation Enabled
-                    </div>
-<h1 class="text-slate-900 dark:text-white text-4xl lg:text-6xl font-extrabold leading-tight tracking-tight">
-                        Welcome to <span class="text-gradient-hospital">Central Medical</span>
-</h1>
-<p class="text-slate-500 dark:text-slate-400 text-lg max-w-xl leading-relaxed">
-                        Navigate our multi-floor facility with ease. Find clinics, wards, and amenities using our intelligent pathfinding system.
-                    </p>
-<div class="flex flex-wrap gap-4 pt-2">
-<button class="px-8 py-4 bg-med-blue text-white rounded-xl font-bold shadow-md shadow-med-blue/20 hover:bg-slate-600 transition-all flex items-center gap-2">
-<span class="material-symbols-outlined">map</span> View Floor Plan
-                        </button>
-<button class="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-200 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
-                            Get Help
-                        </button>
-</div>
-</div>
-<div class="flex-1 w-full max-w-xl">
-<div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border-8 border-slate-50 dark:border-slate-900" data-alt="Modern hospital interior hallway">
-<img alt="Hospital Hallway" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFZn-QXRkPtVknPH2_0qC9CnTA8iO5TjEDs5_oZzspx6bgyRIWTN5vJDXUB1yglW9O3aXhKhIkMC0JiI4YZjmc2EHpt2d8CjHA-7o_M4K_bS8r4GSxrakQyKZPwdJ833-MMaykZLPomo84bU9m3ZfYwq2JrPX9Px2NPl7eokU9uFRFbfDhKuJIvNXxBIWE69WsEQI_7hNJCkLhc97mEj3QQhCjLDwoAqsNkFbaovCjd0xnSUJM7876xoUmEb6BJRvrShA0N4iWI3k"/>
-</div>
-</div>
-</div>
-</div>
-<div class="max-w-7xl mx-auto px-6 py-10">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-<div class="lg:col-span-4 space-y-6">
-<div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-<h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-slate-800 dark:text-slate-100">
-<span class="material-symbols-outlined text-med-blue">route</span> Plan Your Route
-                        </h3>
-<div class="space-y-4">
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Starting Point</label>
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">my_location</span>
-<select class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl focus:ring-med-blue focus:border-med-blue text-slate-700 dark:text-slate-200 text-sm">
-<option>Current Location (Main Lobby)</option>
-<option>East Wing Entrance</option>
-<option>Parking Garage A</option>
-</select>
-</div>
-</div>
-<div class="flex justify-center -my-2 relative z-10">
-<button class="bg-slate-100 dark:bg-slate-800 text-slate-400 p-2 rounded-full border border-slate-200 dark:border-slate-700 hover:text-med-blue transition-colors">
-<span class="material-symbols-outlined">swap_vert</span>
-</button>
-</div>
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Destination</label>
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
-<select class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl focus:ring-med-blue focus:border-med-blue text-slate-700 dark:text-slate-200 text-sm">
-<option>Select Department</option>
-<option>Cardiology (Floor 2)</option>
-<option>Pediatrics (Floor 3)</option>
-<option>Radiology (Floor 1)</option>
-<option>Cafeteria (Ground Floor)</option>
-</select>
-</div>
-</div>
-<button class="w-full py-4 bg-med-green text-white rounded-xl font-bold shadow-md shadow-med-green/20 hover:bg-opacity-90 transition-all flex items-center justify-center gap-2 mt-4">
-<span class="material-symbols-outlined">directions</span> Start Navigation
-                            </button>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-med-red/50 transition-colors cursor-pointer group">
-<span class="material-symbols-outlined text-med-red mb-2 block text-3xl">emergency</span>
-<span class="font-bold text-sm block text-slate-800 dark:text-slate-200">ER</span>
-<span class="text-xs text-slate-400">Emergency Care</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-med-blue/50 transition-colors cursor-pointer group">
-<span class="material-symbols-outlined text-med-blue mb-2 block text-3xl">favorite</span>
-<span class="font-bold text-sm block text-slate-800 dark:text-slate-200">Cardiology</span>
-<span class="text-xs text-slate-400">Floor 2</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-med-blue/50 transition-colors cursor-pointer group">
-<span class="material-symbols-outlined text-med-blue mb-2 block text-3xl">child_care</span>
-<span class="font-bold text-sm block text-slate-800 dark:text-slate-200">Pediatrics</span>
-<span class="text-xs text-slate-400">Floor 3</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-med-blue/50 transition-colors cursor-pointer group">
-<span class="material-symbols-outlined text-med-blue mb-2 block text-3xl">medication</span>
-<span class="font-bold text-sm block text-slate-800 dark:text-slate-200">Pharmacy</span>
-<span class="text-xs text-slate-400">Level 0</span>
-</div>
-</div>
-</div>
-<div class="lg:col-span-8 flex flex-col gap-4">
-<div class="flex items-center justify-between">
-<div class="flex gap-2 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
-<button class="px-5 py-2 bg-white dark:bg-slate-700 text-med-blue dark:text-white rounded-lg text-sm font-bold shadow-sm">Floor 1</button>
-<button class="px-5 py-2 text-slate-500 dark:text-slate-400 rounded-lg text-sm font-medium hover:bg-white/50 dark:hover:bg-slate-700/50">Floor 2</button>
-<button class="px-5 py-2 text-slate-500 dark:text-slate-400 rounded-lg text-sm font-medium hover:bg-white/50 dark:hover:bg-slate-700/50">Floor 3</button>
-</div>
-<div class="flex gap-2">
-<button class="p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-med-blue"><span class="material-symbols-outlined">zoom_in</span></button>
-<button class="p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-med-blue"><span class="material-symbols-outlined">zoom_out</span></button>
-<button class="p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-med-blue"><span class="material-symbols-outlined">layers</span></button>
-</div>
-</div>
-<div class="flex-1 bg-slate-50 dark:bg-slate-900 rounded-2xl relative min-h-[550px] border border-slate-200 dark:border-slate-800 shadow-inner overflow-hidden group">
-<div class="absolute inset-0 opacity-15 pointer-events-none">
-<div class="w-full h-full bg-[radial-gradient(var(--med-blue)_1px,transparent_1px)] [background-size:24px_24px]"></div>
-</div>
-<div class="absolute inset-0 flex items-center justify-center p-8">
-<div class="w-full h-full bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center">
-<div class="text-center">
-<div class="inline-flex items-center justify-center size-20 rounded-full bg-slate-100 dark:bg-slate-900 mb-4">
-<span class="material-symbols-outlined text-5xl text-med-blue/30">explore</span>
-</div>
-<p class="text-slate-600 dark:text-slate-300 font-bold text-lg">Floor Plan Interactive Map</p>
-<p class="text-xs text-slate-400 mt-2 font-medium">Scale: 1:250m | Real-time positioning active</p>
-</div>
-</div>
-</div>
-<div class="absolute bottom-6 left-6 right-6 lg:right-auto lg:w-80 p-5 bg-white/95 dark:bg-slate-900/95 backdrop-blur rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl">
-<div class="flex items-center justify-between mb-4">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-med-green animate-pulse"></div>
-<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Live Status</p>
-</div>
-<span class="text-[10px] font-bold text-med-blue bg-med-blue/10 px-2 py-0.5 rounded">GPS HIGH PRECISION</span>
-</div>
-<div class="flex items-start gap-3">
-<div class="bg-med-green/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-med-green">directions_walk</span>
-</div>
-<div>
-<p class="text-sm font-bold text-slate-800 dark:text-slate-100">Proceed to Level 1 Lobby</p>
-<p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Turn left at the Information Desk after 20 meters. Estimated arrival in 2 min.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<footer class="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 py-10">
-<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="flex items-center gap-3">
-<div class="size-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg text-med-blue">
-<span class="material-symbols-outlined text-xl">domain</span>
-</div>
-<span class="font-bold text-slate-500 dark:text-slate-400 tracking-tight text-sm">Central Medical Hub © 2024</span>
-</div>
-<div class="flex gap-8 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-<a class="hover:text-med-blue transition-colors" href="#">Privacy</a>
-<a class="hover:text-med-blue transition-colors" href="#">Terms</a>
-<a class="hover:text-med-blue transition-colors" href="#">Accessibility</a>
-</div>
-<div class="flex gap-4">
-<button class="text-slate-300 hover:text-med-blue transition-colors"><span class="material-symbols-outlined text-xl">help_outline</span></button>
-<button class="text-slate-300 hover:text-med-red transition-colors"><span class="material-symbols-outlined text-xl">error_outline</span></button>
-</div>
-</div>
-</footer>
-</div>
+    <title>Harmonious Multi-Color Hospital Hub</title>
+  </head>
+  <body class="dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 min-h-screen bg-slate-50">
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+      <div class="modal-content bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 border border-slate-200 dark:border-slate-700">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span class="material-symbols-outlined text-med-blue">settings</span> Settings
+          </h3>
+          <button class="text-slate-400 hover:text-slate-600" onclick="closeModal('settingsModal')">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-700 dark:text-slate-300">Dark Mode</span>
+            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-slate-200 dark:bg-slate-700" id="darkModeToggle" onclick="toggleDarkMode()">
+              <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ease-in-out dark:translate-x-6"></span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-700 dark:text-slate-300">Notifications</span>
+            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-med-blue" onclick="toggleSetting('notifications')">
+              <span class="inline-block h-4 w-4 transform translate-x-6 rounded-full bg-white" id="notificationsToggle"></span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-700 dark:text-slate-300">Location Services</span>
+            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-med-blue" onclick="toggleSetting('location')">
+              <span class="inline-block h-4 w-4 transform translate-x-6 rounded-full bg-white" id="locationToggle"></span>
+            </button>
+          </div>
+          <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">App Version: 2.1.0</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Last Updated: March 2024</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-</body></html>
+    <!-- Notifications Modal -->
+    <div class="modal" id="notificationsModal">
+      <div class="modal-content bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 border border-slate-200 dark:border-slate-700">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span class="material-symbols-outlined text-med-blue">notifications</span> Notifications
+          </h3>
+          <button class="text-slate-400 hover:text-slate-600" onclick="closeModal('notificationsModal')">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="space-y-4">
+          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border-l-4 border-med-blue">
+            <p class="text-sm font-bold text-slate-800 dark:text-slate-200">Appointment Reminder</p>
+            <p class="text-xs text-slate-500">Your appointment with Dr. Smith is in 30 minutes</p>
+            <p class="text-xs text-slate-400 mt-1">2 min ago</p>
+          </div>
+          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border-l-4 border-med-green">
+            <p class="text-sm font-bold text-slate-800 dark:text-slate-200">Prescription Ready</p>
+            <p class="text-xs text-slate-500">Your prescription is ready for pickup at Pharmacy</p>
+            <p class="text-xs text-slate-400 mt-1">1 hour ago</p>
+          </div>
+          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border-l-4 border-med-red">
+            <p class="text-sm font-bold text-slate-800 dark:text-slate-200">Department Update</p>
+            <p class="text-xs text-slate-500">Radiology department is temporarily relocated</p>
+            <p class="text-xs text-slate-400 mt-1">3 hours ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal" id="profileModal">
+      <div class="modal-content bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 border border-slate-200 dark:border-slate-700">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">Doctor Profile</h3>
+          <button class="text-slate-400 hover:text-slate-600" onclick="closeModal('profileModal')">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="text-center mb-6">
+          <img alt="Doctor Profile" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-med-blue/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlLwESl5P6H7Eh8babGU0R3l1hRJbeO4_tcFE_45ft46uc-wf5ZXjYTFmU677wSPV7tzFXmtNLKnML3U2RqAogZu-mHSx6cygyJO1lbaG77dylYgF14hgIUnK8VulGY3Nsoy-7tRCd6XcUanb6uyYQHReBn6yn7ySJ0HBJMDP_YBwXPzcopYQXl3JhGzDqargLuzqo9AMS2sYzcu9Du_mnCcE1sG7TgIC9e9HKA61SeTBUvVO5uZQgIUGdHTZNJJbYe9RzlPaFrR0" />
+          <h4 class="text-lg font-bold text-slate-800 dark:text-slate-200">Dr. Sarah Chen</h4>
+          <p class="text-sm text-med-blue">Chief of Cardiology</p>
+        </div>
+        <div class="space-y-3 text-sm">
+          <p class="flex items-center gap-2"><span class="material-symbols-outlined text-med-blue text-base">email</span> s.chen@centralmed.org</p>
+          <p class="flex items-center gap-2"><span class="material-symbols-outlined text-med-blue text-base">phone</span> +1 (555) 123-4567</p>
+          <p class="flex items-center gap-2"><span class="material-symbols-outlined text-med-blue text-base">badge</span> License: MD-789-012</p>
+          <p class="flex items-center gap-2"><span class="material-symbols-outlined text-med-blue text-base">schedule</span> Mon-Fri, 8AM-5PM</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+      <div class="modal-content bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 border border-slate-200 dark:border-slate-700">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span class="material-symbols-outlined text-med-blue">help_outline</span> Help Center
+          </h3>
+          <button class="text-slate-400 hover:text-slate-600" onclick="closeModal('helpModal')">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="space-y-4">
+          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" onclick="showNotification('Opening FAQ section...', 'info')">
+            <p class="font-bold text-slate-800 dark:text-slate-200">Frequently Asked Questions</p>
+            <p class="text-xs text-slate-500">Find answers to common questions</p>
+          </div>
+          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" onclick="showNotification('Contacting support...', 'info')">
+            <p class="font-bold text-slate-800 dark:text-slate-200">Contact Support</p>
+            <p class="text-xs text-slate-500">Chat with our support team</p>
+          </div>
+          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" onclick="showNotification('Opening user guide...', 'info')">
+            <p class="font-bold text-slate-800 dark:text-slate-200">User Guide</p>
+            <p class="text-xs text-slate-500">Learn how to use the app</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Report Modal -->
+    <div class="modal" id="errorModal">
+      <div class="modal-content bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 border border-slate-200 dark:border-slate-700">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span class="material-symbols-outlined text-med-red">error_outline</span> Report an Issue
+          </h3>
+          <button class="text-slate-400 hover:text-slate-600" onclick="closeModal('errorModal')">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="space-y-4">
+          <textarea class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm" id="errorReportText" rows="5" placeholder="Describe the issue you're experiencing..."></textarea>
+          <button class="w-full py-3 bg-med-red text-white rounded-xl font-bold hover:bg-red-600 transition-colors" onclick="submitErrorReport()">Submit Report</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout-container flex h-full grow flex-col">
+      <header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 dark:bg-slate-900 px-6 py-3 lg:px-10 bg-gradient-to-r from-slate-50 to-white">
+        <div class="flex items-center gap-8">
+          <div class="flex items-center gap-3">
+            <div class="size-9 flex items-center justify-center bg-med-blue rounded-lg text-white">
+              <span class="material-symbols-outlined text-2xl">local_hospital</span>
+            </div>
+            <h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Wayfinding Hub</h2>
+          </div>
+          <div class="hidden md:flex items-center gap-2">
+            <div class="relative flex items-stretch rounded-lg h-10 w-64 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+              <div class="flex items-center justify-center pl-3 text-slate-400">
+                <span class="material-symbols-outlined text-xl">search</span>
+              </div>
+              <input class="w-full bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-400" placeholder="Search departments..." value="" id="searchInput" />
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 lg:gap-8">
+          <nav class="hidden lg:flex items-center gap-6">
+            <a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-med-blue transition-colors cursor-pointer" onclick="openLink('directory')">Directory</a>
+            <a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-med-red transition-colors cursor-pointer" onclick="openLink('emergency')">Emergency</a>
+            <a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-med-blue transition-colors cursor-pointer" onclick="openLink('pharmacy')">Pharmacy</a>
+          </nav>
+          <div class="flex gap-2">
+            <button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700" onclick="openModal('notificationsModal')">
+              <span class="material-symbols-outlined text-xl">notifications</span>
+            </button>
+            <button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700" onclick="openModal('settingsModal')">
+              <span class="material-symbols-outlined text-xl">settings</span>
+            </button>
+          </div>
+          <div class="bg-slate-200 dark:bg-slate-700 rounded-full size-10 flex items-center justify-center overflow-hidden border-2 border-med-blue/20 cursor-pointer" onclick="openModal('profileModal')">
+            <img alt="Doctor Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlLwESl5P6H7Eh8babGU0R3l1hRJbeO4_tcFE_45ft46uc-wf5ZXjYTFmU677wSPV7tzFXmtNLKnML3U2RqAogZu-mHSx6cygyJO1lbaG77dylYgF14hgIUnK8VulGY3Nsoy-7tRCd6XcUanb6uyYQHReBn6yn7ySJ0HBJMDP_YBwXPzcopYQXl3JhGzDqargLuzqo9AMS2sYzcu9Du_mnCcE1sG7TgIC9e9HKA61SeTBUvVO5uZQgIUGdHTZNJJbYe9RzlPaFrR0" />
+          </div>
+        </div>
+      </header>
+      <main class="flex-1">
+        <div class="relative overflow-hidden dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 hero-gradient">
+          <div class="max-w-7xl mx-auto px-6 py-12 lg:py-16 flex flex-col lg:flex-row items-center gap-12">
+            <div class="flex-1 space-y-6">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-med-green/15 text-med-green text-xs font-bold uppercase tracking-wider">
+                <span class="material-symbols-outlined text-sm font-bold">near_me</span> Live Navigation Enabled
+              </div>
+              <h1 class="text-slate-900 dark:text-white text-4xl lg:text-6xl font-extrabold leading-tight tracking-tight"> Welcome to <span class="text-gradient-hospital">Central Medical</span>
+              </h1>
+              <p class="text-slate-500 dark:text-slate-400 text-lg max-w-xl leading-relaxed"> Navigate our multi-floor facility with ease. Find clinics, wards, and amenities using our intelligent pathfinding system. </p>
+              <div class="flex flex-wrap gap-4 pt-2">
+                <button class="px-8 py-4 text-white rounded-xl font-bold shadow-md shadow-med-blue/20 hover:bg-slate-600 transition-all flex items-center gap-2 bg-gradient-medical hover:shadow-lg hover:shadow-med-blue/30 transition-all" onclick="openFloorPlan()">
+                  <span class="material-symbols-outlined">map</span> View Floor Plan </button>
+                <button class="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-200 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all" onclick="openModal('helpModal')"> Get Help </button>
+              </div>
+            </div>
+            <div class="flex-1 w-full max-w-xl">
+              <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border-8 border-slate-50 dark:border-slate-900">
+                <img alt="Hospital Hallway" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFZn-QXRkPtVknPH2_0qC9CnTA8iO5TjEDs5_oZzspx6bgyRIWTN5vJDXUB1yglW9O3aXhKhIkMC0JiI4YZjmc2EHpt2d8CjHA-7o_M4K_bS8r4GSxrakQyKZPwdJ833-MMaykZLPomo84bU9m3ZfYwq2JrPX9Px2NPl7eokU9uFRFbfDhKuJIvNXxBIWE69WsEQI_7hNJCkLhc97mEj3QQhCjLDwoAqsNkFbaovCjd0xnSUJM7876xoUmEb6BJRvrShA0N4iWI3k" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 py-10">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-4 space-y-6">
+              <div class="dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-slate-800 dark:text-slate-100">
+                  <span class="material-symbols-outlined text-med-blue">route</span> Plan Your Route
+                </h3>
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Starting Point</label>
+                    <div class="relative">
+                      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">my_location</span>
+                      <select class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl focus:ring-med-blue focus:border-med-blue text-slate-700 dark:text-slate-200 text-sm" id="startingPoint">
+                        <option>Current Location (Main Lobby)</option>
+                        <option>East Wing Entrance</option>
+                        <option>Parking Garage A</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="flex justify-center -my-2 relative z-10">
+                    <button class="bg-slate-100 dark:bg-slate-800 text-slate-400 p-2 rounded-full border border-slate-200 dark:border-slate-700 hover:text-med-blue transition-colors" onclick="swapLocations()">
+                      <span class="material-symbols-outlined">swap_vert</span>
+                    </button>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Destination</label>
+                    <div class="relative">
+                      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
+                      <select class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl focus:ring-med-blue focus:border-med-blue text-slate-700 dark:text-slate-200 text-sm" id="destination">
+                        <option>Select Department</option>
+                        <option>Cardiology (Floor 2)</option>
+                        <option>Pediatrics (Floor 3)</option>
+                        <option>Radiology (Floor 1)</option>
+                        <option>Cafeteria (Ground Floor)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button class="w-full py-4 text-white rounded-xl font-bold shadow-md shadow-med-green/20 hover:bg-opacity-90 transition-all flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-med-green to-med-teal hover:shadow-lg hover:shadow-med-green/30 transition-all" onclick="startNavigation()">
+                    <span class="material-symbols-outlined">directions</span> Start Navigation </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-med-red/50 transition-colors cursor-pointer group" onclick="selectDepartment('Emergency Care')">
+                  <span class="material-symbols-outlined text-med-red mb-2 block text-3xl">emergency</span>
+                  <span class="font-bold text-sm block text-slate-800 dark:text-slate-200">ER</span>
+                  <span class="text-xs text-slate-400">Emergency Care</span>
+                </div>
+                <div class="dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-med-blue/50 transition-colors cursor-pointer group" onclick="selectDepartment('Cardiology (Floor 2)')">
+                  <span class="material-symbols-outlined text-med-blue mb-2 block text-3xl">favorite</span>
+                  <span class="font-bold text-sm block text-slate-800 dark:text-slate-200">Cardiology</span>
+                  <span class="text-xs text-slate-400">Floor 2</span>
+                </div>
+                <div class="dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-med-blue/50 transition-colors cursor-pointer group" onclick="selectDepartment('Pediatrics (Floor 3)')">
+                  <span class="material-symbols-outlined text-med-blue mb-2 block text-3xl">child_care</span>
+                  <span class="font-bold text-sm block text-slate-800 dark:text-slate-200">Pediatrics</span>
+                  <span class="text-xs text-slate-400">Floor 3</span>
+                </div>
+                <div class="dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-med-blue/50 transition-colors cursor-pointer group" onclick="selectDepartment('Pharmacy (Level 0)')">
+                  <span class="material-symbols-outlined text-med-blue mb-2 block text-3xl">medication</span>
+                  <span class="font-bold text-sm block text-slate-800 dark:text-slate-200">Pharmacy</span>
+                  <span class="text-xs text-slate-400">Level 0</span>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-8 flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <div class="flex gap-2 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
+                  <button class="px-5 py-2 bg-white dark:bg-slate-700 text-med-blue dark:text-white rounded-lg text-sm font-bold shadow-sm floor-btn active-floor" data-floor="1" onclick="setActiveFloor('1')">Floor 1</button>
+                  <button class="px-5 py-2 text-slate-500 dark:text-slate-400 rounded-lg text-sm font-medium hover:bg-white/50 dark:hover:bg-slate-700/50 floor-btn" data-floor="2" onclick="setActiveFloor('2')">Floor 2</button>
+                  <button class="px-5 py-2 text-slate-500 dark:text-slate-400 rounded-lg text-sm font-medium hover:bg-white/50 dark:hover:bg-slate-700/50 floor-btn" data-floor="3" onclick="setActiveFloor('3')">Floor 3</button>
+                </div>
+                <div class="flex gap-2">
+                  <button class="p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-med-blue" onclick="zoomIn()">
+                    <span class="material-symbols-outlined">zoom_in</span>
+                  </button>
+                  <button class="p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-med-blue" onclick="zoomOut()">
+                    <span class="material-symbols-outlined">zoom_out</span>
+                  </button>
+                  <button class="p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-med-blue" onclick="toggleLayers()">
+                    <span class="material-symbols-outlined">layers</span>
+                  </button>
+                </div>
+              </div>
+              <div class="flex-1 bg-slate-50 dark:bg-slate-900 rounded-2xl relative min-h-[550px] border border-slate-200 dark:border-slate-800 shadow-inner overflow-hidden group" id="mapContainer">
+                <div class="absolute inset-0 opacity-15 pointer-events-none">
+                  <div class="w-full h-full bg-[radial-gradient(var(--med-blue)_1px,transparent_1px)] [background-size:24px_24px]"></div>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center p-8">
+                  <div class="w-full h-full bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                    <div class="text-center">
+                      <div class="inline-flex items-center justify-center size-20 rounded-full bg-slate-100 dark:bg-slate-900 mb-4">
+                        <span class="material-symbols-outlined text-5xl text-med-blue/30">explore</span>
+                      </div>
+                      <p class="text-slate-600 dark:text-slate-300 font-bold text-lg" id="mapTitle">Floor Plan Interactive Map</p>
+                      <p class="text-xs text-slate-400 mt-2 font-medium" id="mapScale">Scale: 1:250m | Real-time positioning active</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="absolute bottom-6 left-6 right-6 lg:right-auto lg:w-80 p-5 bg-white/95 dark:bg-slate-900/95 backdrop-blur rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl" id="liveStatus">
+                  <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                      <div class="size-2 rounded-full bg-med-green animate-pulse"></div>
+                      <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Live Status</p>
+                    </div>
+                    <span class="text-[10px] font-bold text-med-blue bg-med-blue/10 px-2 py-0.5 rounded">GPS HIGH PRECISION</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <div class="bg-med-green/10 p-2 rounded-lg">
+                      <span class="material-symbols-outlined text-med-green">directions_walk</span>
+                    </div>
+                    <div>
+                      <p class="text-sm font-bold text-slate-800 dark:text-slate-100" id="statusMessage">Proceed to Level 1 Lobby</p>
+                      <p class="text-xs text-slate-500 mt-0.5 leading-relaxed" id="statusDetail">Turn left at the Information Desk after 20 meters. Estimated arrival in 2 min.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 py-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div class="flex items-center gap-3">
+            <div class="size-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg text-med-blue">
+              <span class="material-symbols-outlined text-xl">domain</span>
+            </div>
+            <span class="font-bold text-slate-500 dark:text-slate-400 tracking-tight text-sm">Central Medical Hub © 2024</span>
+          </div>
+          <div class="flex gap-8 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            <a class="hover:text-med-blue transition-colors cursor-pointer" onclick="openLink('privacy')">Privacy</a>
+            <a class="hover:text-med-blue transition-colors cursor-pointer" onclick="openLink('terms')">Terms</a>
+            <a class="hover:text-med-blue transition-colors cursor-pointer" onclick="openLink('accessibility')">Accessibility</a>
+          </div>
+          <div class="flex gap-4">
+            <button class="text-slate-300 hover:text-med-blue transition-colors" onclick="openModal('helpModal')">
+              <span class="material-symbols-outlined text-xl">help_outline</span>
+            </button>
+            <button class="text-slate-300 hover:text-med-red transition-colors" onclick="openModal('errorModal')">
+              <span class="material-symbols-outlined text-xl">error_outline</span>
+            </button>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Variabel global untuk zoom
+      let zoomLevel = 1;
+      let currentLayer = 'standard';
+      let notificationsEnabled = true;
+      let locationEnabled = true;
+
+      // Fungsi untuk membuka modal
+      function openModal(modalId) {
+        document.getElementById(modalId).classList.add('active');
+      }
+
+      // Fungsi untuk menutup modal
+      function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
+      }
+
+      // Fungsi untuk toggle dark mode
+      function toggleDarkMode() {
+        document.body.classList.toggle('dark');
+        const toggleBtn = document.getElementById('darkModeToggle').querySelector('span');
+        if (document.body.classList.contains('dark')) {
+          toggleBtn.style.transform = 'translateX(24px)';
+          showNotification('Dark mode enabled', 'success');
+        } else {
+          toggleBtn.style.transform = 'translateX(0)';
+          showNotification('Light mode enabled', 'success');
+        }
+      }
+
+      // Fungsi untuk toggle setting lainnya
+      function toggleSetting(setting) {
+        if (setting === 'notifications') {
+          notificationsEnabled = !notificationsEnabled;
+          const toggle = document.getElementById('notificationsToggle');
+          const parent = toggle.parentElement;
+          if (notificationsEnabled) {
+            toggle.style.transform = 'translateX(24px)';
+            parent.classList.remove('bg-slate-200');
+            parent.classList.add('bg-med-blue');
+            showNotification('Notifications enabled', 'success');
+          } else {
+            toggle.style.transform = 'translateX(0)';
+            parent.classList.remove('bg-med-blue');
+            parent.classList.add('bg-slate-200');
+            showNotification('Notifications disabled', 'info');
+          }
+        } else if (setting === 'location') {
+          locationEnabled = !locationEnabled;
+          const toggle = document.getElementById('locationToggle');
+          const parent = toggle.parentElement;
+          if (locationEnabled) {
+            toggle.style.transform = 'translateX(24px)';
+            parent.classList.remove('bg-slate-200');
+            parent.classList.add('bg-med-blue');
+            showNotification('Location services enabled', 'success');
+          } else {
+            toggle.style.transform = 'translateX(0)';
+            parent.classList.remove('bg-med-blue');
+            parent.classList.add('bg-slate-200');
+            showNotification('Location services disabled', 'info');
+          }
+        }
+      }
+
+      // Fungsi untuk membuka link (simulasi halaman baru)
+      function openLink(linkType) {
+        let message = '';
+        let url = '';
+        
+        switch(linkType) {
+          case 'directory':
+            message = 'Opening Hospital Directory...';
+            url = '#directory';
+            break;
+          case 'emergency':
+            message = '⚠️ EMERGENCY: Connecting to emergency services...';
+            url = '#emergency';
+            break;
+          case 'pharmacy':
+            message = 'Opening Pharmacy Information...';
+            url = '#pharmacy';
+            break;
+          case 'privacy':
+            message = 'Opening Privacy Policy...';
+            url = '#privacy';
+            break;
+          case 'terms':
+            message = 'Opening Terms of Service...';
+            url = '#terms';
+            break;
+          case 'accessibility':
+            message = 'Opening Accessibility Options...';
+            url = '#accessibility';
+            break;
+          default:
+            message = 'Opening link...';
+            url = '#';
+        }
+        
+        showNotification(message, 'info');
+      }
+
+      // Fungsi untuk menampilkan notifikasi
+      function showNotification(message, type = 'info') {
+        if (!notificationsEnabled && type !== 'error') return;
+        
+        const existingNotif = document.querySelector('.custom-notification');
+        if (existingNotif) {
+          existingNotif.remove();
+        }
+        
+        const notification = document.createElement('div');
+        notification.className = `custom-notification fixed top-20 right-4 z-50 p-4 rounded-xl shadow-2xl border-l-4 max-w-md transform transition-all duration-300 translate-x-0 ${
+          type === 'success' ? 'bg-green-50 dark:bg-green-900 border-green-500' : 
+          type === 'error' ? 'bg-red-50 dark:bg-red-900 border-red-500' : 
+          'bg-blue-50 dark:bg-blue-900 border-blue-500'
+        }`;
+        
+        notification.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined ${
+              type === 'success' ? 'text-green-500' : 
+              type === 'error' ? 'text-red-500' : 
+              'text-blue-500'
+            }">${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}</span>
+            <div class="flex-1">
+              <p class="font-bold text-slate-800 dark:text-slate-100">${message}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${new Date().toLocaleTimeString()}</p>
+            </div>
+            <button class="text-slate-400 hover:text-slate-600" onclick="this.parentElement.parentElement.remove()">
+              <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+          </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          if (notification.parentElement) {
+            notification.remove();
+          }
+        }, 5000);
+      }
+
+      // Fungsi untuk submit error report
+      function submitErrorReport() {
+        const textarea = document.getElementById('errorReportText');
+        const reportText = textarea.value.trim();
+        
+        if (reportText === '') {
+          showNotification('Please describe the issue before submitting', 'error');
+          return;
+        }
+        
+        showNotification('Thank you for your report. Our team will investigate.', 'success');
+        textarea.value = '';
+        closeModal('errorModal');
+      }
+
+      // Fungsi untuk membuka floor plan
+      function openFloorPlan() {
+        showNotification('Opening interactive floor plan...', 'success');
+        document.getElementById('mapContainer').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // Fungsi untuk swap lokasi
+      function swapLocations() {
+        const start = document.getElementById('startingPoint');
+        const dest = document.getElementById('destination');
+        
+        if (dest.value !== 'Select Department') {
+          const temp = start.value;
+          start.value = dest.value;
+          dest.value = temp;
+          showNotification('Starting point and destination swapped', 'success');
+        } else {
+          showNotification('Please select a destination first', 'error');
+        }
+      }
+
+      // Fungsi untuk memulai navigasi
+      function startNavigation() {
+        const start = document.getElementById('startingPoint').value;
+        const dest = document.getElementById('destination').value;
+        
+        if (dest === 'Select Department') {
+          showNotification('Please select a destination first', 'error');
+          return;
+        }
+        
+        if (!locationEnabled) {
+          showNotification('Please enable location services to start navigation', 'error');
+          return;
+        }
+        
+        showNotification(`Navigation started from "${start}" to "${dest}"`, 'success');
+        
+        document.getElementById('statusMessage').textContent = `Navigating to ${dest}`;
+        document.getElementById('statusDetail').textContent = `Starting from ${start}. Follow the green path.`;
+      }
+
+      // Fungsi untuk memilih department dari kartu
+      function selectDepartment(department) {
+        const destSelect = document.getElementById('destination');
+        
+        for (let i = 0; i < destSelect.options.length; i++) {
+          if (destSelect.options[i].text.includes(department) || 
+              (department === 'Emergency Care' && destSelect.options[i].text.includes('Emergency'))) {
+            destSelect.selectedIndex = i;
+            break;
+          }
+        }
+        
+        showNotification(`${department} selected as destination`, 'success');
+        startNavigation();
+      }
+
+      // Fungsi untuk mengganti floor
+      function setActiveFloor(floor) {
+        document.querySelectorAll('.floor-btn').forEach(btn => {
+          if (btn.getAttribute('data-floor') === floor) {
+            btn.classList.remove('text-slate-500', 'dark:text-slate-400', 'hover:bg-white/50', 'dark:hover:bg-slate-700/50');
+            btn.classList.add('bg-white', 'dark:bg-slate-700', 'text-med-blue', 'dark:text-white', 'shadow-sm');
+          } else {
+            btn.classList.remove('bg-white', 'dark:bg-slate-700', 'text-med-blue', 'dark:text-white', 'shadow-sm');
+            btn.classList.add('text-slate-500', 'dark:text-slate-400', 'hover:bg-white/50', 'dark:hover:bg-slate-700/50');
+          }
+        });
+        
+        document.getElementById('mapTitle').textContent = `Floor ${floor} - ${floor === '1' ? 'Main Level' : floor === '2' ? 'Cardiology & Surgery' : 'Pediatrics & Maternity'}`;
+        
+        const statusMessage = document.getElementById('statusMessage');
+        const statusDetail = document.getElementById('statusDetail');
+        
+        if (floor === '1') {
+          statusMessage.textContent = 'Proceed to Level 1 Lobby';
+          statusDetail.textContent = 'Turn left at the Information Desk after 20 meters. Estimated arrival in 2 min.';
+        } else if (floor === '2') {
+          statusMessage.textContent = 'You are on Floor 2 - Cardiology';
+          statusDetail.textContent = 'Department entrance is straight ahead. Estimated wait time: 5 min.';
+        } else {
+          statusMessage.textContent = 'You are on Floor 3 - Pediatrics';
+          statusDetail.textContent = 'Children\'s ward is to the right. Please use the family entrance.';
+        }
+        
+        showNotification(`Switched to Floor ${floor} view`, 'success');
+      }
+
+      // Fungsi zoom in
+      function zoomIn() {
+        zoomLevel = Math.min(zoomLevel + 0.25, 2);
+        document.getElementById('mapScale').textContent = `Scale: 1:${Math.round(250/zoomLevel)}m | Zoom: ${Math.round(zoomLevel*100)}%`;
+        showNotification(`Zooming in to ${Math.round(zoomLevel*100)}%`, 'info');
+      }
+
+      // Fungsi zoom out
+      function zoomOut() {
+        zoomLevel = Math.max(zoomLevel - 0.25, 0.5);
+        document.getElementById('mapScale').textContent = `Scale: 1:${Math.round(250/zoomLevel)}m | Zoom: ${Math.round(zoomLevel*100)}%`;
+        showNotification(`Zooming out to ${Math.round(zoomLevel*100)}%`, 'info');
+      }
+
+      // Fungsi toggle layers
+      function toggleLayers() {
+        const layers = ['Standard', 'Satellite', 'Accessibility'];
+        const currentIndex = layers.indexOf(currentLayer.charAt(0).toUpperCase() + currentLayer.slice(1));
+        const nextIndex = (currentIndex + 1) % layers.length;
+        currentLayer = layers[nextIndex].toLowerCase();
+        
+        showNotification(`Switched to ${layers[nextIndex]} view`, 'info');
+      }
+
+      // Event listener setelah DOM siap
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            const searchTerm = this.value.trim();
+            if (searchTerm) {
+              showNotification(`Searching for: ${searchTerm}`, 'info');
+            }
+          }
+        });
+
+        document.querySelectorAll('.modal').forEach(modal => {
+          modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+              this.classList.remove('active');
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

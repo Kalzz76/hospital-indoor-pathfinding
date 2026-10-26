@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Auto added ignore rules
+node_modules/
+dist/
+.claude/
+.idea/
